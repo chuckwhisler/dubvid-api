@@ -1,11 +1,13 @@
 import Ffmpeg from 'fluent-ffmpeg';
 import express from 'express';
 import fileUpload from 'express-fileupload';
+import { path } from '@ffmpeg-installer/ffmpeg';
 const app = express();
 
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json())
 
+Ffmpeg.setFfmpegPath(path);
 app.listen("3001", () => {
     console.log("Listening on 3001");
 });
