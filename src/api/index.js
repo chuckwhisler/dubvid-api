@@ -45,7 +45,7 @@ app.post('/api/video/convert', (req, res) => {
                 .on('error', (err) => {
                     console.error('Error:', err);
                 })
-                .saveToFile(`${req.body.output_path}`);
+                .saveToFile(`/usr/share/nginx/html/source/${req.body.output_path}`);
             res.json({ "message": "File converted successfully." });
             console.log("completed")
         }).on('error', (e) => {
