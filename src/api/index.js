@@ -29,6 +29,12 @@ app.post('/api/video/create/thumbnail', (req, res) => {
         .run();
 });
 
+app.post('/api/video/duration/get', async (req, res) => {
+    console.log(req.body)
+    let duration = await getVideoDurationInSeconds(`/usr/share/nginx/html/source/${req.body.video_path}`)
+    res.json({ duration });
+});
+
 app.post('/api/video/convert', (req, res) => {
 
     console.log(req.body)
