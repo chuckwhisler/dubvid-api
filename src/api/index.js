@@ -2,6 +2,7 @@ import Ffmpeg from 'fluent-ffmpeg';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import { path } from '@ffmpeg-installer/ffmpeg';
+import {getVideoDurationInSeconds} from 'get-video-duration';
 const app = express();
 
 app.use(fileUpload({ useTempFiles: true }));
