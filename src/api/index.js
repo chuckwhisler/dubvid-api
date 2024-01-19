@@ -2,7 +2,7 @@ import Ffmpeg from 'fluent-ffmpeg';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import { path } from '@ffmpeg-installer/ffmpeg';
-import {getVideoDurationInSeconds} from 'get-video-duration';
+import { getVideoDurationInSeconds } from 'get-video-duration';
 const app = express();
 
 app.use(fileUpload({ useTempFiles: true }));
@@ -37,9 +37,9 @@ app.post('/api/video/duration/get', async (req, res) => {
 });
 
 app.post('/api/video/convert', (req, res) => {
-
     console.log(req.body)
     Ffmpeg(`/usr/share/nginx/html/source/${req.body.video_path}`)
+        .inputOptions(['-async', '1'])
         .on('end', () => {
             Ffmpeg()
                 .input(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`)
