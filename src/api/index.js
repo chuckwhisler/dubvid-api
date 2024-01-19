@@ -43,6 +43,7 @@ app.post('/api/video/convert', (req, res) => {
         .on('end', () => {
             Ffmpeg()
                 .input(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`)
+                .videoCodec('copy')
                 .input(`/usr/share/nginx/html/source/${req.body.audio_path}`)
                 .on('end', () => {
                     console.log('Conversion finished!');
