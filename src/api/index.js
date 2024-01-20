@@ -158,6 +158,8 @@ app.post('/api/video/convert/audio', (req, res) => {
         .on('end', () => console.log('Processing finished'))
         .on('error', (err) => console.error('Error:', err))
         .save(`/usr/share/nginx/html/source/${account_id}/${key}_output.mp4`);
+
+    res.json({ message: "Video Completed" });
 })
 
 app.post('/api/video/convert', (req, res) => {
