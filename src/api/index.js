@@ -135,7 +135,7 @@ app.post('/api/video/duration/get', async (req, res) => {
 });
 
 app.post('/api/video/convert/audio', (req, res) => {
-    let data = req.body.data;
+    let data = JSON.parse(req.body.data);
     let key = req.body.key;
     let account_id = req.body.account_id;
 
