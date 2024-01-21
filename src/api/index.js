@@ -51,7 +51,7 @@ app.post('/api/video/convert', (req, res) => {
         .outputOptions(["-map 0:v", "-map [aout]", "-c:v copy", "-c:a aac"])
         .on('end', () => console.log('Processing finished'))
         .on('error', (err) => console.error('Error:', err))
-        .save(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_output.mp4`);
+        .saveToFile(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_output.mp4`);
 
     res.json({ message: "Video Completed" });
 })
