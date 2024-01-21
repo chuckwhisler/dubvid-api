@@ -111,29 +111,6 @@ app.listen("3001", () => {
     console.log("Listening on 3001");
 });
 
-app.post('/api/video/create/thumbnail', (req, res) => {
-    console.log(req.body.video_path);
-    Ffmpeg()
-        .input(`/usr/share/nginx/html/source/${req.body.video_path}`)
-        .seekInput('00:00:15') // equivalent to -ss in FFmpeg
-        .frames(1)
-        .videoFilter('scale=220:114:force_original_aspect_ratio=decrease,pad=220:114:-1:-1:color=black')
-        .on('end', () => {
-            console.log('Screenshot taken successfully!');
-        })
-        .on('error', (err) => {
-            console.error('Error:', err);
-        })
-        .output(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0]}_thumbnail.png`)
-        .run();
-});
-
-app.post('/api/video/duration/get', async (req, res) => {
-    console.log(req.body)
-    let duration = await getVideoDurationInSeconds(`/usr/share/nginx/html/source/${req.body.video_path}`)
-    res.json({ duration });
-});
-
 app.post('/api/video/convert', (req, res) => {
     let data = JSON.parse(req.body.data);
     let key = req.body.key;
@@ -175,6 +152,30 @@ app.post('/api/video/convert', (req, res) => {
 
     res.json({ message: "Video Completed" });
 })
+
+app.post('/api/video/create/thumbnail', (req, res) => {
+    console.log(req.body.video_path);
+    Ffmpeg()
+        .input(`/usr/share/nginx/html/source/${req.body.video_path}`)
+        .seekInput('00:00:15') // equivalent to -ss in FFmpeg
+        .frames(1)
+        .videoFilter('scale=220:114:force_original_aspect_ratio=decrease,pad=220:114:-1:-1:color=black')
+        .on('end', () => {
+            console.log('Screenshot taken successfully!');
+        })
+        .on('error', (err) => {
+            console.error('Error:', err);
+        })
+        .output(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0]}_thumbnail.png`)
+        .run();
+});
+
+app.post('/api/video/duration/get', async (req, res) => {
+    console.log(req.body)
+    let duration = await getVideoDurationInSeconds(`/usr/share/nginx/html/source/${req.body.video_path}`)
+    res.json({ duration });
+});
+
 
 // app.post('/api/video/convert', (req, res) => {
 //     console.log(req.body)
