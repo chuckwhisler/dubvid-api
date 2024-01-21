@@ -38,24 +38,27 @@ app.post('/api/video/convert', (req, res) => {
     Ffmpeg().input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}.mp4`)
         .noAudio()
         .saveToFile(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
-    ffmpeg.input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
 
-    audioFiles.forEach((input) => {
-        ffmpeg.input(input);
-    });
+    setTimeout(() => {
+        ffmpeg.input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
 
-    console.log(`${audioInputs};${audioMix}amix=inputs=${audioFiles.length}[aout]`)
+        audioFiles.forEach((input) => {
+            ffmpeg.input(input);
+        });
 
-    ffmpeg
-        .complexFilter(`${audioInputs};${audioMix}amix=inputs=${audioFiles.length}[aout]`)
-        .audioCodec('aac')
-        .videoCodec('copy')
-        .outputOptions(["-map 0:v", "-map [aout]", "-c:v copy", "-c:a aac"])
-        .on('end', () => console.log('Processing finished'))
-        .on('error', (err) => console.error('Error:', err))
-        .saveToFile(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_output.mp4`);
+        console.log(`${audioInputs};${audioMix}amix=inputs=${audioFiles.length}[aout]`)
 
-    res.json({ message: "Video Completed" });
+        ffmpeg
+            .complexFilter(`${audioInputs};${audioMix}amix=inputs=${audioFiles.length}[aout]`)
+            .audioCodec('aac')
+            .videoCodec('copy')
+            .outputOptions(["-map 0:v", "-map [aout]", "-c:v copy", "-c:a aac"])
+            .on('end', () => console.log('Processing finished'))
+            .on('error', (err) => console.error('Error:', err))
+            .saveToFile(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_output.mp4`);
+
+        res.json({ message: "Video Completed" });
+    }, 5000);
 })
 
 app.post('/api/video/create/thumbnail', (req, res) => {
