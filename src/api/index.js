@@ -83,7 +83,7 @@ app.post('/api/video/create/thumbnail', (req, res) => {
         .input(`/usr/share/nginx/html/source/${req.body.video_path}`)
         .seekInput('00:00:15') // equivalent to -ss in FFmpeg
         .frames(1)
-        .videoFilter('scale=220:114:force_original_aspect_ratio=decrease,pad=220:114:-1:-1:color=black')
+        .videoFilter('thumbnail')
         .on('end', () => {
             console.log('Screenshot taken successfully!');
         })
