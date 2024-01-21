@@ -33,8 +33,9 @@ app.post('/api/video/convert', (req, res) => {
     console.log(audioMix);
     console.log(delays);
     console.log(audioFiles);
+    console.log("account_id:", account_id);
+    console.log("key:", key);
 
-    let ffmpeg = Ffmpeg();
     Ffmpeg(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}.mp4`)
         .noAudio()
         .on('end', () => console.log('Audio Removed finished'))
@@ -42,6 +43,7 @@ app.post('/api/video/convert', (req, res) => {
         .saveToFile(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
 
     setTimeout(() => {
+        let ffmpeg = Ffmpeg();
         ffmpeg.input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
 
         audioFiles.forEach((input) => {
