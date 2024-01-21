@@ -35,7 +35,7 @@ app.post('/api/video/convert', (req, res) => {
     console.log(audioFiles);
 
     let ffmpeg = Ffmpeg();
-    Ffmpeg().input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}.mp4`).noAudio().save(`/usr/share/nginx/html/source/${account_id}/${key}_no_audio.mp4`);
+    Ffmpeg().input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}.mp4`).noAudio().save(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
     ffmpeg.input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
 
     audioFiles.forEach((input) => {
