@@ -134,7 +134,7 @@ app.post('/api/video/duration/get', async (req, res) => {
     res.json({ duration });
 });
 
-app.post('/api/video/convert/audio', (req, res) => {
+app.post('/api/video/convert', (req, res) => {
     let data = JSON.parse(req.body.data);
     let key = req.body.key;
     let account_id = req.body.account_id;
@@ -176,29 +176,29 @@ app.post('/api/video/convert/audio', (req, res) => {
     res.json({ message: "Video Completed" });
 })
 
-app.post('/api/video/convert', (req, res) => {
-    console.log(req.body)
-    Ffmpeg(`/usr/share/nginx/html/source/${req.body.video_path}`)
-        .inputOptions(['-async', '1'])
-        .on('end', () => {
-            Ffmpeg()
-                .input(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`)
-                .videoCodec('copy')
-                .input(`/usr/share/nginx/html/source/${req.body.audio_path}`)
-                .on('end', () => {
-                    console.log('Conversion finished!');
-                })
-                .on('error', (err) => {
-                    console.error('Error:', err);
-                })
-                .saveToFile(`/usr/share/nginx/html/source/${req.body.output_path}`);
-            res.json({ "message": "File converted successfully." });
-            console.log("completed")
-        }).on('error', (e) => {
-            console.log("err", e)
-        })
-        .noAudio()
-        .saveToFile(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`);
-});
+// app.post('/api/video/convert', (req, res) => {
+//     console.log(req.body)
+//     Ffmpeg(`/usr/share/nginx/html/source/${req.body.video_path}`)
+//         .inputOptions(['-async', '1'])
+//         .on('end', () => {
+//             Ffmpeg()
+//                 .input(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`)
+//                 .videoCodec('copy')
+//                 .input(`/usr/share/nginx/html/source/${req.body.audio_path}`)
+//                 .on('end', () => {
+//                     console.log('Conversion finished!');
+//                 })
+//                 .on('error', (err) => {
+//                     console.error('Error:', err);
+//                 })
+//                 .saveToFile(`/usr/share/nginx/html/source/${req.body.output_path}`);
+//             res.json({ "message": "File converted successfully." });
+//             console.log("completed")
+//         }).on('error', (e) => {
+//             console.log("err", e)
+//         })
+//         .noAudio()
+//         .saveToFile(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`);
+// });
 
 export default app;
