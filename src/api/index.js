@@ -62,7 +62,7 @@ app.post('/api/video/convert', (req, res) => {
             .saveToFile(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_output.mp4`);
 
         res.json({ message: "Video Completed" });
-    }, 5000);
+    }, 10000);
 })
 
 app.post('/api/video/create/thumbnail', (req, res) => {
