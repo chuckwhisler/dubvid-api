@@ -37,6 +37,8 @@ app.post('/api/video/convert', (req, res) => {
     let ffmpeg = Ffmpeg();
     Ffmpeg().input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}.mp4`)
         .noAudio()
+        .on('end', () => console.log('Audio Removed finished'))
+        .on('error', (err) => console.error('Error:', err))
         .saveToFile(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
 
     setTimeout(() => {
