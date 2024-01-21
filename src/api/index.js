@@ -22,7 +22,7 @@ app.post('/api/video/convert', (req, res) => {
     const delays = [];
     for (var audio of data.transcription) {
         // audioFiles.push(`/home/shayannadeem/Downloads/audio_segments/${key}_${audio.start_time}_${audio.end_time}_translated_audio.mp3`);
-        audioFiles.push(`/usr/share/nginx/html/source/${account_id}/${key}_${audio.start_time}_${audio.end_time}_translated_audio.mp3`);
+        audioFiles.push(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_${audio.start_time}_${audio.end_time}_translated_audio.mp3`);
         delays.push(audio.start_time * 1000)
     }
 
@@ -35,8 +35,8 @@ app.post('/api/video/convert', (req, res) => {
     console.log(audioFiles);
 
     let ffmpeg = Ffmpeg();
-    Ffmpeg().input(`/usr/share/nginx/html/source/${account_id}/${key}.mp4`).noAudio().save(`/usr/share/nginx/html/source/${account_id}/${key}_no_audio.mp4`);
-    ffmpeg.input(`/usr/share/nginx/html/source/${account_id}/${key}_no_audio.mp4`);
+    Ffmpeg().input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}.mp4`).noAudio().save(`/usr/share/nginx/html/source/${account_id}/${key}_no_audio.mp4`);
+    ffmpeg.input(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_no_audio.mp4`);
 
     audioFiles.forEach((input) => {
         ffmpeg.input(input);
@@ -51,7 +51,7 @@ app.post('/api/video/convert', (req, res) => {
         .outputOptions(["-map 0:v", "-map [aout]", "-c:v copy", "-c:a aac"])
         .on('end', () => console.log('Processing finished'))
         .on('error', (err) => console.error('Error:', err))
-        .save(`/usr/share/nginx/html/source/${account_id}/${key}_output.mp4`);
+        .save(`/usr/share/nginx/html/source/public/videos/${account_id}/${key}_output.mp4`);
 
     res.json({ message: "Video Completed" });
 })
