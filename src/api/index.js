@@ -144,8 +144,8 @@ app.post('/api/video/convert', (req, res) => {
 });
 
 app.post('/api/video/compress', (req, res) => {
-    console.log(video_path);
     let video_path = `/usr/share/nginx/html/source/${req.body.video_path}`;;
+    console.log(video_path);
     let outputPath = `/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_compressed." + req.body.video_path.split('.')[1]}`;
     Ffmpeg()
         .input(video_path)
