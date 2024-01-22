@@ -155,7 +155,7 @@ app.post('/api/video/compress', (req, res) => {
         .addOption('-bufsize', '3000k')
         .audioCodec('aac')
         .audioBitrate('192k')
-        .addOption('-fs', '11M')
+        .addOption('-fs', '10M')
         .output(outputPath)
         .on('end', () => {
             console.log('Conversion finished');
@@ -165,6 +165,7 @@ app.post('/api/video/compress', (req, res) => {
             console.error('Error:', err);
         })
         .run();
+    res.json({ "message": "File converted successfully." });
 });
 
 export default app;
