@@ -144,26 +144,38 @@ app.post('/api/video/convert', (req, res) => {
 });
 
 app.post('/api/video/compress', (req, res) => {
-    let video_path = `/home/shayannadeem/Downloads/${req.body.video_path}`;;
+    let video_path = `/usr/share/nginx/html/source/${req.body.video_path}`;;
     console.log(video_path);
-    let outputPath = `/home/shayannadeem/Downloads/${req.body.video_path.split('.')[0] + "_compressed." + req.body.video_path.split('.')[1]}`;
+    let outputPath = `/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_audio.mp3"}`;
+
     Ffmpeg()
         .input(video_path)
-        .videoCodec('libx264')
-        .videoBitrate('1500k')
-        .audioCodec('aac')
+        .audioCodec('libmp3lame')
         .audioBitrate('192k')
-        .outputOptions('-maxrate 1500k')
-        .outputOptions('-bufsize 3000k')
-        .audioChannels(2) // Set the number of audio channels
-        .audioFrequency(44100) // Set the audio frequency
         .output(outputPath)
         .on('end', () => {
-            console.log('Conversion finished')
-            res.json({ "message": "File converted successfully." });
+            console.log('Audio extraction finished')
+            res.json({ "message": "Audio extraction finished." });
         })
         .on('error', (err) => console.error('Error:', err))
         .run();
+    // Ffmpeg()
+    //     .input(video_path)
+    //     .videoCodec('libx264')
+    //     .videoBitrate('1500k')
+    //     .audioCodec('aac')
+    //     .audioBitrate('192k')
+    //     .outputOptions('-maxrate 1500k')
+    //     .outputOptions('-bufsize 3000k')
+    //     .audioChannels(2) // Set the number of audio channels
+    //     .audioFrequency(44100) // Set the audio frequency
+    //     .output(outputPath)
+    //     .on('end', () => {
+    //         console.log('Conversion finished')
+    //         res.json({ "message": "File converted successfully." });
+    //     })
+    //     .on('error', (err) => console.error('Error:', err))
+    //     .run();
     // Ffmpeg()
     //     .input(video_path)
     //     .videoCodec('copy')
