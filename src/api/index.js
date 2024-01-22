@@ -99,7 +99,7 @@ app.post('/api/video/create/thumbnail', (req, res) => {
 });
 
 app.post('/api/video/duration/get', async (req, res) => {
-    let file = req.files.file;
+    let file = req.files?.file;
     if (!file) {
         let duration = await getVideoDurationInSeconds(fs.createReadStream(`/usr/share/nginx/html/source/${req.body.video_path}`))
         console.log(duration);
