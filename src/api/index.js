@@ -1,5 +1,6 @@
 import Ffmpeg from 'fluent-ffmpeg';
 import express from 'express';
+import fs from 'fs';
 import fileUpload from 'express-fileupload';
 import { path } from '@ffmpeg-installer/ffmpeg';
 import { getVideoDurationInSeconds } from 'get-video-duration';
@@ -95,8 +96,8 @@ app.post('/api/video/create/thumbnail', (req, res) => {
 });
 
 app.post('/api/video/duration/get', async (req, res) => {
-    console.log(req.body)
-    let duration = await getVideoDurationInSeconds(`/usr/share/nginx/html/source/${req.body.video_path}`)
+    let duration = await getVideoDurationInSeconds(fs.createReadStream(`/usr/share/nginx/html/source/${req.body.video_path}`))
+    console.log(duration);
     res.json({ duration });
 });
 
