@@ -87,6 +87,7 @@ app.post('/api/video/create/thumbnail', (req, res) => {
         .videoFilter('thumbnail')
         .on('end', () => {
             console.log('Screenshot taken successfully!');
+            res.json({ message: "Screenshot taken successfully" });
         })
         .on('error', (err) => {
             console.error('Error:', err);
