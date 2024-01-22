@@ -144,34 +144,26 @@ app.post('/api/video/convert', (req, res) => {
 });
 
 app.post('/api/video/compress', (req, res) => {
-    let file = req.files?.file;
-    let uploadPath = './tmp/' + file.name;
-
-
-    file.mv(uploadPath, async function(err) {
-        if (err)
-            return res.status(500).send(err);
-
-        let outputPath = `/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_compressed." + req.body.video_path.split('.')[1]}`;
-        Ffmpeg()
-            .input(uploadPath)
-            .videoCodec('libx264')
-            .videoBitrate('1500k')
-            .addOption('-maxrate', '1500k')
-            .addOption('-bufsize', '3000k')
-            .audioCodec('aac')
-            .audioBitrate('192k')
-            .addOption('-fs', '11M')
-            .output(outputPath)
-            .on('end', () => {
-                console.log('Conversion finished');
-                res.json({ "message": "File converted successfully." });
-            })
-            .on('error', (err) => {
-                console.error('Error:', err);
-            })
-            .run();
-    });
+    let video_path = `/home/shayannadeem/Downloads/${req.body.video_path}`;;
+    let outputPath = `/home/shayannadeem/Downloads/${req.body.video_path.split('.')[0] + "_compressed." + req.body.video_path.split('.')[1]}`;
+    Ffmpeg()
+        .input(video_path)
+        .videoCodec('libx264')
+        .videoBitrate('1500k')
+        .addOption('-maxrate', '1500k')
+        .addOption('-bufsize', '3000k')
+        .audioCodec('aac')
+        .audioBitrate('192k')
+        .addOption('-fs', '11M')
+        .output(outputPath)
+        .on('end', () => {
+            console.log('Conversion finished');
+            res.json({ "message": "File converted successfully." });
+        })
+        .on('error', (err) => {
+            console.error('Error:', err);
+        })
+        .run();
 });
 
 export default app;
