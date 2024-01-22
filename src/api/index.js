@@ -156,6 +156,7 @@ app.post('/api/video/compress', (req, res) => {
         .audioCodec('aac')
         .audioBitrate('192k')
         .addOption('-fs', '10M')
+        .addOption('-preset', 'fast')
         .output(outputPath)
         .on('end', () => {
             console.log('Conversion finished');
