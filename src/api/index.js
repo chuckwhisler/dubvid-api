@@ -3,6 +3,8 @@ import express from 'express';
 import fs from 'fs';
 import fileUpload from 'express-fileupload';
 import { path } from '@ffmpeg-installer/ffmpeg';
+import { Blob } from 'buffer';
+import fetch from 'node-fetch';
 import { getVideoDurationInSeconds } from 'get-video-duration';
 const app = express();
 
@@ -97,9 +99,23 @@ app.post('/api/video/create/thumbnail', (req, res) => {
 });
 
 app.post('/api/video/duration/get', async (req, res) => {
-    let duration = await getVideoDurationInSeconds(fs.createReadStream(`/usr/share/nginx/html/source/${req.body.video_path}`))
-    console.log(duration);
-    res.json({ duration });
+    let file = req.files.file;
+    if (!file) {
+        let duration = await getVideoDurationInSeconds(fs.createReadStream(`/usr/share/nginx/html/source/${req.body.video_path}`))
+        console.log(duration);
+        res.json({ duration });
+    } else {
+        let uploadPath = './tmp/' + file.name;
+
+        file.mv(uploadPath, async function(err) {
+            if (err)
+                return res.status(500).send(err);
+
+            let duration = await getVideoDurationInSeconds(fs.createReadStream(uploadPath))
+            console.log(duration);
+            res.json({ duration });
+        });
+    }
 });
 
 
