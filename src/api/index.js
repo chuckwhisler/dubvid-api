@@ -167,7 +167,6 @@ app.post('/api/video/compress', (req, res) => {
             console.error('Error:', err);
         })
         .run();
-    res.json({ "message": "File converted successfully." });
 });
 
 export default app;
