@@ -26,7 +26,7 @@ app.post('/api/video/download', async (req, res) => {
         .then((result) => {
             const { mp3, title } = result;
             console.log("Video Title:", title);
-            fs.writeFileSync(video_path, mp3)
+            fs.writeFileSync(`/usr/share/nginx/html/source/${video_path.split(".")[0]}_audio.mp3`, mp3)
             res.json({'message':'Audio Written.'});
             // Use the `mp3` Buffer as needed.
         })
