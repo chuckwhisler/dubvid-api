@@ -5,6 +5,8 @@ import fileUpload from 'express-fileupload';
 import { path } from '@ffmpeg-installer/ffmpeg';
 import { Blob } from 'buffer';
 import fetch from 'node-fetch';
+import { getVideoMP3Binary } from 'yt-get';
+
 import { getVideoDurationInSeconds } from 'get-video-duration';
 const app = express();
 
@@ -15,7 +17,24 @@ Ffmpeg.setFfmpegPath(path);
 app.listen("3001", () => {
     console.log("Listening on 3001");
 });
+app.post('/api/video/download', async (req, res) => {
+    console.log(req.body.link);
+    const link = req.body.link;
+    const video_path = req.body.video_path;
 
+    getVideoMP3Binary(link)
+        .then((result) => {
+            const { mp3, title } = result;
+            console.log("Video Title:", title);
+            fs.writeFileSync(video_path, mp3)
+            res.json({'message':'Audio Written.'});
+            // Use the `mp3` Buffer as needed.
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+
+});
 // app.post('/api/video/dubbing', (req, res) => {
 //     let key = req.body.key;
 //     let account_id = req.body.account_id;

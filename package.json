@@ -9,6 +9,10 @@
         "fluent-ffmpeg": "^2.1.2",
         "form-data": "^4.0.0",
         "fs": "^0.0.1-security",
-        "node-fetch": "^3.3.2"
+        "node-fetch": "^3.3.2",
+        "yt-dlp": "^10.1.9",
+        "yt-dlp-wrap": "^2.3.12",
+        "yt-get": "^1.1.2",
+        "ytdlp-nodejs": "^0.1.4"
     }
 }
