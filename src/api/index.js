@@ -114,6 +114,7 @@ app.post('/api/video/create/thumbnail', (req, res) => {
             console.error('Error:', err);
         })
         .saveToFile(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0]}_thumbnail.png`)
+        .run();
 });
 
 app.post('/api/video/duration/get', async (req, res) => {
