@@ -103,7 +103,7 @@ app.post('/api/video/create/thumbnail', (req, res) => {
     console.log(req.body.video_path);
     Ffmpeg()
         .input(`/usr/share/nginx/html/source/${req.body.video_path}`)
-        .seekInput('00:00:15') // equivalent to -ss in FFmpeg
+        .seekInput('00:00:05') // equivalent to -ss in FFmpeg
         .frames(1)
         .videoFilter('thumbnail')
         .on('end', () => {
