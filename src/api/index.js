@@ -3,12 +3,9 @@ import express from 'express';
 import fs from 'fs';
 import fileUpload from 'express-fileupload';
 import { path } from '@ffmpeg-installer/ffmpeg';
-import { Blob } from 'buffer';
-import fetch from 'node-fetch';
 import { getVideoMP3Binary } from 'yt-get';
-
 import { getVideoDurationInSeconds } from 'get-video-duration';
-import { whisper } from 'whisper-node';
+
 const app = express();
 
 app.use(fileUpload({ useTempFiles: true }));
@@ -162,11 +159,6 @@ app.post('/api/video/convert', (req, res) => {
         .noAudio()
         .saveToFile(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`);
 });
-app.post('/api/video/transcribe', async (req, res) => {
-    let audio_path = `/usr/share/nginx/html/source/${req.body.audio_path}`;
-    const transcript = await whisper(audio_path);
-    res.json({ transcript });
-})
 app.post('/api/video/compress', (req, res) => {
     let video_path = `/usr/share/nginx/html/source/${req.body.video_path}`;;
     console.log(video_path);
