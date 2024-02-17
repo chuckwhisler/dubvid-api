@@ -138,21 +138,42 @@ app.post('/api/video/duration/get', async (req, res) => {
 
 app.post('/api/video/convert', (req, res) => {
     console.log(req.body)
+    Ffmpeg()
+        .input(`/usr/share/nginx/html/source/${req.body.video_path}`)
+        .audioFilters('pan=stereo|c0=c0|c1=-1*c1')
+        .audioChannels(1)
+        .output(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_background_music." + req.body.video_path.split('.')[1]}`)
+        .on('end', () => {
+            console.log('Conversion complete');
+        })
+        .on('error', (err) => {
+            console.error('Error during conversion:', err);
+        })
+        .run();
+
     Ffmpeg(`/usr/share/nginx/html/source/${req.body.video_path}`)
         .on('end', () => {
             Ffmpeg()
                 .input(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_no_audio." + req.body.video_path.split('.')[1]}`)
                 .videoCodec('copy')
                 .input(`/usr/share/nginx/html/source/${req.body.audio_path}`)
+                .input(`/usr/share/nginx/html/source/${req.body.video_path.split('.')[0] + "_background_music." + req.body.video_path.split('.')[1]}`)
+                .complexFilter([
+                    '[1:a][2:a]amix=inputs=2:duration=first:dropout_transition=3[a]'
+                ])
+                .outputOptions('-map 0:v:0')
+                .outputOptions('-map "[a]"')
+                .outputOptions('-c:v copy')
+                .outputOptions('-shortest')
                 .on('end', () => {
                     console.log('Conversion finished!');
+                    res.json({ "message": "File converted successfully." });
+                    console.log("completed")
                 })
                 .on('error', (err) => {
                     console.error('Error:', err);
                 })
                 .saveToFile(`/usr/share/nginx/html/source/${req.body.output_path}`);
-            res.json({ "message": "File converted successfully." });
-            console.log("completed")
         }).on('error', (e) => {
             console.log("err", e)
         })
