@@ -184,7 +184,7 @@ app.post('/api/video/convert', (req, res) => {
                         .videoCodec('copy')
                         .input(`/usr/share/nginx/html/source/${req.body.audio_path}`)
                         .on('end', () => {
-                            console.log('Conversion finished!');
+                            console.log('Conversion finished without Background music!');
                             res.json({ "message": "File converted successfully." });
                             console.log("completed")
                         })
