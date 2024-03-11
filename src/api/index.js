@@ -20,6 +20,8 @@ app.post('/api/video/download', async (req, res) => {
     const link = req.body.link;
     const video_path = req.body.video_path;
 
+    fs.mkdirSync(`/usr/share/nginx/html/source/${video_path}`);
+
     getVideoMP3Binary(link)
         .then((result) => {
             const { mp3, title } = result;
